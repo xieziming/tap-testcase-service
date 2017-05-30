@@ -22,6 +22,9 @@ public class TestCase {
     @Id
     private String uid;
 
+    @Column(length=100)
+    private String path = "unclassified";
+
     @Column(length = 100, unique = true)
     private String name;
 
@@ -52,14 +55,11 @@ public class TestCase {
     public String toString() {
         return "TestCase{" +
                 "uid=" + uid +
-                ", operation='" + name + '\'' +
+                ", path='" + path + '\'' +
+                ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", status='" + status + '\'' +
                 ", createdTime=" + createdTime +
-                ", testCaseRelations=" + testCaseRelations +
-                ", testCaseMetas=" + testCaseMetas +
-                ", testSteps=" + testSteps +
-                ", testDatas=" + testDatas +
                 '}';
     }
 
@@ -69,7 +69,9 @@ public class TestCase {
         if(o != null && TestCase.class.isAssignableFrom(o.getClass())){
             TestCase tc = (TestCase) o;
             equals = (new EqualsBuilder()
+                    .append(path, tc.getPath())
                     .append(name, tc.name)
+                    .append(status, tc.getStatus())
                     .append(description, tc.description)
                     .append(testCaseRelations, tc.testCaseRelations)
                     .append(testCaseMetas, tc.testCaseMetas)
