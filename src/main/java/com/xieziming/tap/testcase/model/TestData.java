@@ -1,6 +1,7 @@
 /*
- * Copyright (c) 2016. SUNY XIE, All rights reserved.
- * Inbox@xieziming.com
+ * Author: Suny Xie
+ * Email: inbox@xieziming.com
+ * Copyright (c) 2017 xieziming.com All rights reserved.
  */
 
 package com.xieziming.tap.testcase.model;
@@ -21,9 +22,6 @@ public class TestData {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @ManyToOne(optional = false)
-    private TestCase testCase;
-
     @OneToOne(cascade = CascadeType.PERSIST)
     private TestDataDefinition testDataDefinition;
 
@@ -31,18 +29,17 @@ public class TestData {
     public String toString() {
         return "TestData{" +
                 "id=" + id +
-                ", testCase=" + testCase.getUid() +
                 ", testDataDefinition=" + testDataDefinition +
-                '}';
+                "}";
     }
+
 
     @Override
     public boolean equals(Object o){
         boolean equals = false;
-        if(o != null && TestData.class.isAssignableFrom(o.getClass())){
-            TestData td = (TestData) o;
+        if(o != null && com.xieziming.tap.testcase.model.TestData.class.isAssignableFrom(o.getClass())){
+            com.xieziming.tap.testcase.model.TestData td = (com.xieziming.tap.testcase.model.TestData) o;
             equals = (new EqualsBuilder()
-                    .append(testCase.getUid(), td.getTestCase().getUid())
                     .append(testDataDefinition, td.testDataDefinition)
                     .isEquals());
         }

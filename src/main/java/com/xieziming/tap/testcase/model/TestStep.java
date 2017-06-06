@@ -1,6 +1,7 @@
 /*
- * Copyright (c) 2016. SUNY XIE, All rights reserved.
- * Inbox@xieziming.com
+ * Author: Suny Xie
+ * Email: inbox@xieziming.com
+ * Copyright (c) 2017 xieziming.com All rights reserved.
  */
 
 package com.xieziming.tap.testcase.model;
@@ -21,9 +22,6 @@ public class TestStep {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @ManyToOne(optional = false)
-    private TestCase testCase;
-
     @Column(length=10)
     private Integer stepOrder;
 
@@ -37,20 +35,18 @@ public class TestStep {
     public String toString() {
         return "TestStep{" +
                 "id=" + id +
-                ", testCase=" + testCase.getUid() +
                 ", stepOrder=" + stepOrder +
                 ", testOperation=" + testStepOperation +
-                ", parameter='" + parameter + '\'' +
-                '}';
+                ", parameter=" + parameter +
+                "}";
     }
 
     @Override
     public boolean equals(Object o){
         boolean equals = false;
-        if(o != null && TestStep.class.isAssignableFrom(o.getClass())){
-            TestStep ts = (TestStep) o;
+        if(o != null && com.xieziming.tap.testcase.model.TestStep.class.isAssignableFrom(o.getClass())){
+            com.xieziming.tap.testcase.model.TestStep ts = (com.xieziming.tap.testcase.model.TestStep) o;
             equals = (new EqualsBuilder()
-                    .append(testCase.getUid(), ts.getTestCase().getUid())
                     .append(stepOrder, ts.stepOrder)
                     .append(testStepOperation, ts.testStepOperation)
                     .append(parameter, ts.parameter).isEquals());

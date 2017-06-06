@@ -1,6 +1,7 @@
 /*
- * Copyright (c) 2016. SUNY XIE, All rights reserved.
- * Inbox@xieziming.com
+ * Author: Suny Xie
+ * Email: inbox@xieziming.com
+ * Copyright (c) 2017 xieziming.com All rights reserved.
  */
 
 package com.xieziming.tap.testcase.model;
@@ -15,7 +16,7 @@ import javax.persistence.*;
  */
 @Data
 @Entity
-@Table(name="test_data_definition")
+@Table(name="test_data_definition", uniqueConstraints = {@UniqueConstraint(columnNames={"type", "field"})})
 public class TestDataDefinition {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,18 +38,18 @@ public class TestDataDefinition {
     public String toString() {
         return "TestDataDefinition{" +
                 "id=" + id +
-                ", type='" + type + '\'' +
-                ", field='" + field + '\'' +
-                ", value='" + value + '\'' +
-                ", remark='" + remark + '\'' +
-                '}';
+                ", type=" + type +
+                ", field=" + field +
+                ", value=" + value +
+                ", remark=" + remark +
+                "}";
     }
 
     @Override
     public boolean equals(Object o){
         boolean equals = false;
-        if(o != null && TestDataDefinition.class.isAssignableFrom(o.getClass())){
-            TestDataDefinition tdf = (TestDataDefinition) o;
+        if(o != null && com.xieziming.tap.testcase.model.TestDataDefinition.class.isAssignableFrom(o.getClass())){
+            com.xieziming.tap.testcase.model.TestDataDefinition tdf = (com.xieziming.tap.testcase.model.TestDataDefinition) o;
             equals = (new EqualsBuilder()
                     .append(type, tdf.type)
                     .append(field, tdf.field)

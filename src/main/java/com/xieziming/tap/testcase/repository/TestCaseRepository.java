@@ -18,8 +18,6 @@ package com.xieziming.tap.testcase.repository;
 import com.xieziming.tap.testcase.model.TestCase;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.data.repository.query.Param;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
@@ -28,11 +26,10 @@ import java.util.List;
  *
  * @author Suny Xie
  */
-@RepositoryRestResource(collectionResourceRel = "testCase", path = "testCase")
 public interface TestCaseRepository extends PagingAndSortingRepository<TestCase, String>, CrudRepository<TestCase, String> {
-    TestCase findByUid(@Param("uid") String uid);
-    TestCase findByName(@Param("name") String name);
-    List<TestCase> findByNameContaining(@Param("name") String name);
-    List<TestCase> findByStatus(@Param("status") String status);
-    List<TestCase> findByDescriptionContaining(@Param("description") String description);
+    List<TestCase> findByName(String name);
+    List<TestCase> findByPath(String path);
+    List<TestCase> findByStatus(String status);
+    List<TestCase> findByNameContaining(String name);
+    List<TestCase> findByDescriptionContaining(String description);
 }

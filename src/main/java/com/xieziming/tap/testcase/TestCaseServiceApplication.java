@@ -17,6 +17,7 @@ package com.xieziming.tap.testcase;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 
 /**
  * Application configuration file.
@@ -24,8 +25,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Suny Xie
  */
 @SpringBootApplication
+@EnableCaching
 public class TestCaseServiceApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(TestCaseServiceApplication.class, args);
 	}

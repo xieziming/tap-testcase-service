@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+    <diskStore path="java.io.tmpdir"/>
+    <defaultCache
+            maxElementsInMemory="5000"
+            eternal="false"
+            overflowToDisk="false"
+            timeToIdleSeconds="10"
+            timeToLiveSeconds="20"/>
+
+    <cache name="test_case"
+           maxElementsInMemory="500"
+           timeToIdleSeconds="60"
+           timeToLiveSeconds="3600"/>
+
+    <cache name="test_case_search"
+           maxElementsInMemory="50"
+           timeToIdleSeconds="10"
+           timeToLiveSeconds="60"/>
+
+</ehcache>

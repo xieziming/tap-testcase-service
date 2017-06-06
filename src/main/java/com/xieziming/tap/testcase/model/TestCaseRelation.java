@@ -1,6 +1,7 @@
 /*
- * Copyright (c) 2016. SUNY XIE, All rights reserved.
- * Inbox@xieziming.com
+ * Author: Suny Xie
+ * Email: inbox@xieziming.com
+ * Copyright (c) 2017 xieziming.com All rights reserved.
  */
 
 package com.xieziming.tap.testcase.model;
@@ -34,19 +35,19 @@ public class TestCaseRelation {
     public String toString() {
         return "TestCaseRelation{" +
                 "id=" + id +
-                ", testCase=" + testCase.getUid() +
-                ", relatedTestCase=" + relatedTestCase.getName() +
-                ", relation='" + relation + '\'' +
-                '}';
+                ", testCase=" + testCase +
+                ", relatedTestCase=" + relatedTestCase +
+                ", relation=" + relation +
+                "}";
     }
 
     @Override
     public boolean equals(Object o){
         boolean equals = false;
-        if(o != null && TestCaseRelation.class.isAssignableFrom(o.getClass())){
-            TestCaseRelation tr = (TestCaseRelation) o;
+        if(o != null && com.xieziming.tap.testcase.model.TestCaseRelation.class.isAssignableFrom(o.getClass())){
+            com.xieziming.tap.testcase.model.TestCaseRelation tr = (com.xieziming.tap.testcase.model.TestCaseRelation) o;
             equals = (new EqualsBuilder()
-                    .append(testCase.getUid(), tr.getTestCase().getUid())
+                    .append(testCase.getUid(), tr.testCase.getUid())
                     .append(relatedTestCase.getUid(), tr.relatedTestCase.getUid())
                     .append(relation, tr.relation).isEquals());
         }

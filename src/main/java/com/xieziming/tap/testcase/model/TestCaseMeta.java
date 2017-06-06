@@ -1,6 +1,7 @@
 /*
- * Copyright (c) 2016. SUNY XIE, All rights reserved.
- * Inbox@xieziming.com
+ * Author: Suny Xie
+ * Email: inbox@xieziming.com
+ * Copyright (c) 2017 xieziming.com All rights reserved.
  */
 
 package com.xieziming.tap.testcase.model;
@@ -15,14 +16,11 @@ import javax.persistence.*;
  */
 @Data
 @Entity
-@Table(name="test_case_meta")
+@Table(name="test_case_meta", uniqueConstraints = {@UniqueConstraint(columnNames={"metaType", "metaKey"})})
 public class TestCaseMeta {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-
-    @ManyToOne(optional = false)
-    private TestCase testCase;
 
     @Column(length = 50, nullable = false)
     private String metaType;
@@ -37,20 +35,18 @@ public class TestCaseMeta {
     public String toString() {
         return "TestCaseMeta{" +
                 "id=" + id +
-                ", testCase=" + testCase.getUid() +
-                ", metaType='" + metaType + '\'' +
-                ", metaKey='" + metaKey + '\'' +
-                ", metaValue='" + metaValue + '\'' +
-                '}';
+                ", metaType=" + metaType + "'" +
+                ", metaKey=" + metaKey + "'" +
+                ", metaValue=" + metaValue + "'" +
+                "}";
     }
 
     @Override
     public boolean equals(Object o){
         boolean equals = false;
-        if(o != null && TestCaseMeta.class.isAssignableFrom(o.getClass())){
-            TestCaseMeta tcm = (TestCaseMeta) o;
+        if(o != null && com.xieziming.tap.testcase.model.TestCaseMeta.class.isAssignableFrom(o.getClass())){
+            com.xieziming.tap.testcase.model.TestCaseMeta tcm = (com.xieziming.tap.testcase.model.TestCaseMeta) o;
             equals = (new EqualsBuilder()
-                    .append(testCase.getUid(), tcm.getTestCase().getUid())
                     .append(metaType, tcm.metaType)
                     .append(metaKey, tcm.metaKey)
                     .append(metaValue, tcm.metaValue).isEquals());
