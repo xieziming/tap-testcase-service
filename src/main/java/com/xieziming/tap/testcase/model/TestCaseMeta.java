@@ -16,14 +16,11 @@ import javax.persistence.*;
  */
 @Data
 @Entity
-@Table(name="test_case_meta", uniqueConstraints = {@UniqueConstraint(columnNames={"metaType", "metaKey"})})
+@Table(name="test_case_meta", uniqueConstraints = {@UniqueConstraint(columnNames={"test_case_uid", "metaKey"})})
 public class TestCaseMeta {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-
-    @Column(length = 50, nullable = false)
-    private String metaType;
 
     @Column(length = 50, nullable = false)
     private String metaKey;
@@ -35,7 +32,6 @@ public class TestCaseMeta {
     public String toString() {
         return "TestCaseMeta{" +
                 "id=" + id +
-                ", metaType=" + metaType + "'" +
                 ", metaKey=" + metaKey + "'" +
                 ", metaValue=" + metaValue + "'" +
                 "}";
@@ -47,7 +43,6 @@ public class TestCaseMeta {
         if(o != null && com.xieziming.tap.testcase.model.TestCaseMeta.class.isAssignableFrom(o.getClass())){
             com.xieziming.tap.testcase.model.TestCaseMeta tcm = (com.xieziming.tap.testcase.model.TestCaseMeta) o;
             equals = (new EqualsBuilder()
-                    .append(metaType, tcm.metaType)
                     .append(metaKey, tcm.metaKey)
                     .append(metaValue, tcm.metaValue).isEquals());
         }

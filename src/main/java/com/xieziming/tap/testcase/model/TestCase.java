@@ -43,16 +43,20 @@ public class TestCase {
     private Date createdTime;
 
     @OneToMany(targetEntity = TestCaseMeta.class, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "testCase")
+    @JoinColumn(name = "test_case_uid")
     private List<TestCaseMeta> testCaseMetas;
 
     @OneToMany(targetEntity = TestStep.class, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "testCase")
+    @JoinColumn(name = "test_case_uid")
     private List<TestStep> testSteps;
 
     @OneToMany(targetEntity = TestData.class, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "testCase")
+    @JoinColumn(name = "test_case_uid")
     private List<TestData> testDatas;
+
+    @OneToMany(targetEntity = TestCaseTag.class, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "test_case_uid")
+    private List<TestCaseTag> testCaseTags;
 
     @Override
     public String toString() {

@@ -16,7 +16,7 @@ import javax.persistence.*;
  */
 @Data
 @Entity
-@Table(name="test_case_relation")
+@Table(name="test_case_relation", uniqueConstraints = {@UniqueConstraint(columnNames={"test_case_uid", "related_test_case_uid", "relation"})})
 public class TestCaseRelation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

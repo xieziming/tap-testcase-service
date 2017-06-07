@@ -16,7 +16,7 @@ import javax.persistence.*;
  */
 @Data
 @Entity
-@Table(name="test_step_operation", uniqueConstraints = {@UniqueConstraint(columnNames={"operation", "operator"})})
+@Table(name="test_step_operation", uniqueConstraints = {@UniqueConstraint(columnNames={"operation"})})
 public class TestStepOperation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
