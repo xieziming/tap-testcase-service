@@ -22,7 +22,7 @@ public class TestData {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private TestDataDefinition testDataDefinition;
 
     @Override

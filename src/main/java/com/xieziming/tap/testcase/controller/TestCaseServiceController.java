@@ -23,12 +23,12 @@ public class TestCaseServiceController {
     @Autowired
     TestCaseService testCaseService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public Iterable<TestCase> findAll(){
         return testCaseService.findAll();
     }
 
-    @RequestMapping(value = "/", method = {RequestMethod.PUT, RequestMethod.POST})
+    @RequestMapping(value = "", method = {RequestMethod.PUT, RequestMethod.POST})
     public TestCase save(@RequestBody TestCase testCase){
         return testCaseService.save(testCase);
     }
