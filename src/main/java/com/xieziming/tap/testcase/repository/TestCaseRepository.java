@@ -16,6 +16,7 @@
 package com.xieziming.tap.testcase.repository;
 
 import com.xieziming.tap.testcase.model.TestCase;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
@@ -28,8 +29,11 @@ import java.util.List;
  */
 public interface TestCaseRepository extends PagingAndSortingRepository<TestCase, String>, CrudRepository<TestCase, String> {
     List<TestCase> findByName(String name);
-    List<TestCase> findByPath(String path);
+    List<TestCase> findByPathStartingWith(String path);
     List<TestCase> findByStatus(String status);
     List<TestCase> findByNameContaining(String name);
     List<TestCase> findByDescriptionContaining(String description);
+
+    @Query("SELECT DISTINCT path FROM TestCase")
+    List<String> findAllPaths();
 }

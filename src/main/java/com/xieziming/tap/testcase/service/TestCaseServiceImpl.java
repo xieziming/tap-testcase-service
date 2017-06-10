@@ -14,6 +14,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,7 +59,7 @@ public class TestCaseServiceImpl implements TestCaseService {
     @Override
     @Cacheable(value = "test_case_search", key = "'path_'+#path")
     public List<TestCase> withPath(String path) {
-        return testCaseRepository.findByPath(path);
+        return testCaseRepository.findByPathStartingWith(path);
     }
 
     @Override
@@ -77,5 +78,17 @@ public class TestCaseServiceImpl implements TestCaseService {
     @Cacheable(value = "test_case_search", key = "'description_contains_'+#status")
     public List<TestCase> containsDescription(String description) {
         return testCaseRepository.findByDescriptionContaining(description);
+    }
+
+    @Override
+    @Cacheable(value = "test_case_search", key = "'path_'+#path")
+    public List<String> findSubPaths(String path) {
+        List<String> allPaths = testCaseRepository.findAllPaths();
+        List<String> paths = new ArrayList<>();
+
+        for(String thePath : allPaths){
+            if(thePath.startsWith(path)) paths.add(thePath);
+        }
+        return paths;
     }
 }

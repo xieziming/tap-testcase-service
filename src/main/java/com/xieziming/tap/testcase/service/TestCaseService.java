@@ -23,4 +23,5 @@ public interface TestCaseService {
     List<TestCase> withStatus(String status);
     List<TestCase> containsName(String name);
     List<TestCase> containsDescription(String description);
+    List<String> findSubPaths(String path);
 }

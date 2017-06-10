@@ -67,4 +67,9 @@ public class TestCaseServiceController {
     public List<TestCase> containsDescription(String description){
         return testCaseService.containsDescription(description);
     }
+
+    @RequestMapping(value = "/subPaths", method = RequestMethod.POST)
+    public List<String> findSubPaths(@RequestParam String path){
+        return testCaseService.findSubPaths(path);
+    }
 }
