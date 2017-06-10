@@ -73,16 +73,16 @@ public class TestCase {
     @Override
     public boolean equals(Object o){
         boolean equals = false;
-        if(o != null && com.xieziming.tap.testcase.model.TestCase.class.isAssignableFrom(o.getClass())){
-            com.xieziming.tap.testcase.model.TestCase tc = (com.xieziming.tap.testcase.model.TestCase) o;
+        if(o != null && TestCase.class.isAssignableFrom(o.getClass())){
+            TestCase tc = (TestCase) o;
             equals = (new EqualsBuilder()
                     .append(path, tc.getPath())
-                    .append(name, tc.name)
+                    .append(name, tc.getName())
                     .append(status, tc.getStatus())
-                    .append(description, tc.description)
-                    .append(testCaseMetas, tc.testCaseMetas)
-                    .append(testDatas, tc.testDatas)
-                    .append(testSteps, tc.testSteps).isEquals());
+                    .append(description, tc.getDescription())
+                    .append(testCaseMetas, tc.getTestCaseMetas())
+                    .append(testDatas, tc.getTestDatas())
+                    .append(testSteps, tc.getTestSteps()).isEquals());
         }
         return equals;
     }

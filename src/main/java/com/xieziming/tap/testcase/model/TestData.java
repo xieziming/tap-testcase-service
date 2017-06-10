@@ -37,10 +37,10 @@ public class TestData {
     @Override
     public boolean equals(Object o){
         boolean equals = false;
-        if(o != null && com.xieziming.tap.testcase.model.TestData.class.isAssignableFrom(o.getClass())){
-            com.xieziming.tap.testcase.model.TestData td = (com.xieziming.tap.testcase.model.TestData) o;
+        if(o != null && TestData.class.isAssignableFrom(o.getClass())){
+            TestData td = (TestData) o;
             equals = (new EqualsBuilder()
-                    .append(testDataDefinition, td.testDataDefinition)
+                    .append(testDataDefinition, td.getTestDataDefinition())
                     .isEquals());
         }
         return equals;

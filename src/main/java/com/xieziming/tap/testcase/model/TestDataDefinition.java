@@ -48,13 +48,13 @@ public class TestDataDefinition {
     @Override
     public boolean equals(Object o){
         boolean equals = false;
-        if(o != null && com.xieziming.tap.testcase.model.TestDataDefinition.class.isAssignableFrom(o.getClass())){
-            com.xieziming.tap.testcase.model.TestDataDefinition tdf = (com.xieziming.tap.testcase.model.TestDataDefinition) o;
+        if(o != null && TestDataDefinition.class.isAssignableFrom(o.getClass())){
+            TestDataDefinition tdf = (TestDataDefinition) o;
             equals = (new EqualsBuilder()
-                    .append(type, tdf.type)
-                    .append(field, tdf.field)
-                    .append(value, tdf.value)
-                    .append(remark, tdf.remark).isEquals());
+                    .append(type, tdf.getType())
+                    .append(field, tdf.getField())
+                    .append(value, tdf.getValue())
+                    .append(remark, tdf.getRemark()).isEquals());
         }
         return equals;
     }

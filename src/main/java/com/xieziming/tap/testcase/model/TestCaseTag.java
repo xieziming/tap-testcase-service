@@ -38,7 +38,7 @@ public class TestCaseTag {
         boolean equals = false;
         if(o != null && TestCaseTag.class.isAssignableFrom(o.getClass())){
             TestCaseTag tcg = (TestCaseTag) o;
-            equals = (new EqualsBuilder().append(tag, tcg.tag).isEquals());
+            equals = (new EqualsBuilder().append(tag, tcg.getTag()).isEquals());
         }
         return equals;
     }

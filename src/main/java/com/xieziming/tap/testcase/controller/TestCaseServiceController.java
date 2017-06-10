@@ -7,11 +7,14 @@
 package com.xieziming.tap.testcase.controller;
 
 import com.xieziming.tap.testcase.model.TestCase;
+import com.xieziming.tap.testcase.search.SearchCondition;
+import com.xieziming.tap.testcase.service.TestCaseSearchService;
 import com.xieziming.tap.testcase.service.TestCaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -23,9 +26,12 @@ public class TestCaseServiceController {
     @Autowired
     TestCaseService testCaseService;
 
+    @Autowired
+    TestCaseSearchService testCaseSearchService;
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     public Iterable<TestCase> findAll(){
-        return testCaseService.findAll();
+        return testCaseSearchService.findAll();
     }
 
     @RequestMapping(value = "", method = {RequestMethod.PUT, RequestMethod.POST})
@@ -35,7 +41,7 @@ public class TestCaseServiceController {
 
     @RequestMapping(value = "/{uid}", method = RequestMethod.GET)
     public TestCase find(@PathVariable String uid){
-        return testCaseService.findOne(uid);
+        return testCaseSearchService.findOne(uid);
     }
 
     @RequestMapping(value = "/{uid}", method = RequestMethod.DELETE)
@@ -43,33 +49,13 @@ public class TestCaseServiceController {
         testCaseService.delete(uid);
     }
 
-    @RequestMapping(value = "search/path", method = RequestMethod.POST)
-    public List<TestCase> withPath(String path){
-        return testCaseService.withPath(path);
-    }
-
-    @RequestMapping(value = "search/name", method = RequestMethod.POST)
-    public List<TestCase> withName(String name){
-        return testCaseService.withName(name);
-    }
-
-    @RequestMapping(value = "search/status/{status}", method = RequestMethod.GET)
-    public List<TestCase> withStatus(@PathVariable String status){
-        return testCaseService.withStatus(status);
-    }
-
-    @RequestMapping(value = "search/name/contains", method = RequestMethod.POST)
-    public List<TestCase> containsName(String name){
-        return testCaseService.containsName(name);
-    }
-
-    @RequestMapping(value = "search/description/contains", method = RequestMethod.POST)
-    public List<TestCase> containsDescription(String description){
-        return testCaseService.containsDescription(description);
+    @RequestMapping(value = "/search", method = {RequestMethod.PUT, RequestMethod.POST})
+    public List<TestCase> search(@RequestBody SearchCondition searchCondition) throws Exception {
+        return testCaseSearchService.findByConditions(searchCondition);
     }
 
     @RequestMapping(value = "/subPaths", method = RequestMethod.POST)
-    public List<String> findSubPaths(@RequestParam String path){
-        return testCaseService.findSubPaths(path);
+    public Set<String> findSubPaths(@RequestParam String path){
+        return testCaseSearchService.findSubPaths(path);
     }
 }

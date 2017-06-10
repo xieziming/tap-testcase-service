@@ -44,12 +44,12 @@ public class TestCaseRelation {
     @Override
     public boolean equals(Object o){
         boolean equals = false;
-        if(o != null && com.xieziming.tap.testcase.model.TestCaseRelation.class.isAssignableFrom(o.getClass())){
-            com.xieziming.tap.testcase.model.TestCaseRelation tr = (com.xieziming.tap.testcase.model.TestCaseRelation) o;
+        if(o != null && TestCaseRelation.class.isAssignableFrom(o.getClass())){
+            TestCaseRelation tr = (TestCaseRelation) o;
             equals = (new EqualsBuilder()
                     .append(testCase.getUid(), tr.testCase.getUid())
                     .append(relatedTestCase.getUid(), tr.relatedTestCase.getUid())
-                    .append(relation, tr.relation).isEquals());
+                    .append(relation, tr.getRelation()).isEquals());
         }
         return equals;
     }

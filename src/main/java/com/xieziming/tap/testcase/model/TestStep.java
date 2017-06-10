@@ -44,12 +44,12 @@ public class TestStep {
     @Override
     public boolean equals(Object o){
         boolean equals = false;
-        if(o != null && com.xieziming.tap.testcase.model.TestStep.class.isAssignableFrom(o.getClass())){
-            com.xieziming.tap.testcase.model.TestStep ts = (com.xieziming.tap.testcase.model.TestStep) o;
+        if(o != null && TestStep.class.isAssignableFrom(o.getClass())){
+            TestStep ts = (TestStep) o;
             equals = (new EqualsBuilder()
-                    .append(stepOrder, ts.stepOrder)
-                    .append(testStepOperation, ts.testStepOperation)
-                    .append(parameter, ts.parameter).isEquals());
+                    .append(stepOrder, ts.getStepOrder())
+                    .append(testStepOperation, ts.getTestStepOperation())
+                    .append(parameter, ts.getParameter()).isEquals());
         }
         return equals;
     }

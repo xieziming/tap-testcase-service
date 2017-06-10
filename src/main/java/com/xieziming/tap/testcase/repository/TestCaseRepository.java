@@ -29,6 +29,7 @@ import java.util.List;
  */
 public interface TestCaseRepository extends PagingAndSortingRepository<TestCase, String>, CrudRepository<TestCase, String> {
     List<TestCase> findByName(String name);
+    List<TestCase> findByPath(String path);
     List<TestCase> findByPathStartingWith(String path);
     List<TestCase> findByStatus(String status);
     List<TestCase> findByNameContaining(String name);

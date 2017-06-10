@@ -40,11 +40,11 @@ public class TestCaseMeta {
     @Override
     public boolean equals(Object o){
         boolean equals = false;
-        if(o != null && com.xieziming.tap.testcase.model.TestCaseMeta.class.isAssignableFrom(o.getClass())){
-            com.xieziming.tap.testcase.model.TestCaseMeta tcm = (com.xieziming.tap.testcase.model.TestCaseMeta) o;
+        if(o != null && TestCaseMeta.class.isAssignableFrom(o.getClass())){
+            TestCaseMeta tcm = (TestCaseMeta) o;
             equals = (new EqualsBuilder()
-                    .append(metaKey, tcm.metaKey)
-                    .append(metaValue, tcm.metaValue).isEquals());
+                    .append(metaKey, tcm.getMetaKey())
+                    .append(metaValue, tcm.getMetaValue()).isEquals());
         }
         return equals;
     }
