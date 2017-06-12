@@ -6,6 +6,8 @@
 
 package com.xieziming.tap.testcase.service;
 
+import com.xieziming.tap.testcase.dto.TestCasePath;
+import com.xieziming.tap.testcase.dto.TestCasePathSearchResult;
 import com.xieziming.tap.testcase.model.TestCase;
 import com.xieziming.tap.testcase.repository.TestCaseRepository;
 import com.xieziming.tap.testcase.search.SearchCondition;
@@ -16,6 +18,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,12 +30,6 @@ import java.util.Set;
 public class TestCaseSearchServiceImpl implements TestCaseSearchService {
     @Autowired
     TestCaseRepository testCaseRepository;
-
-    @Override
-    @Cacheable(value = "test_case", key = "#uid")
-    public TestCase findOne(String uid) {
-        return testCaseRepository.findOne(uid);
-    }
 
     @Override
     @Cacheable(value = "test_case_search", key = "'find_all'")
@@ -61,24 +58,52 @@ public class TestCaseSearchServiceImpl implements TestCaseSearchService {
     }
 
     @Override
-    @Cacheable(value = "test_case_search", key = "'sub_path_'+#path")
-    public Set<String> findSubPaths(String path) {
-        List<String> allPaths = testCaseRepository.findAllPaths();
-        Set<String> subPaths = new HashSet<>();
-
+    @Cacheable(value = "test_case_search", key = "'dir_path_'+#path")
+    public TestCasePathSearchResult retrievePath(String path) {
         if(path.endsWith("/")) path = StringUtils.chop(path);
+        TestCasePathSearchResult testCasePathSearchResult = new TestCasePathSearchResult();
+        testCasePathSearchResult.setParentTestCasePath(getParentPath(path));
+        testCasePathSearchResult.setTestCasePaths(getSubPaths(path));
+        testCasePathSearchResult.setTestCases(testCaseRepository.findByPath(path));
+        return testCasePathSearchResult;
+    }
 
+    private String getParentPath(String path){
+        if(path.endsWith("/")) path = StringUtils.chop(path);
+        int lastFound = path.lastIndexOf("/");
+        if(lastFound == -1) return null;
+        if(lastFound == 0) return "/";
+        return path.substring(0, lastFound);
+    }
+
+    @Cacheable(value = "test_case_search", key = "'dir_sub_path_'+#path")
+    private List<TestCasePath> getSubPaths(String searchPath){
+        if(searchPath.endsWith("/")) searchPath = StringUtils.chop(searchPath);
+        List<String> allPaths = testCaseRepository.findAllPaths();
+        List<TestCasePath> testCasePaths = new ArrayList<>();
+
+        Set<String> uniquePaths = new HashSet<>();
         for(String thePath : allPaths){
-            if(thePath.startsWith(path)){
-                String[] matched = thePath.replace(path, "").split("/");
-                String sub = matched[0];
-
-                if(matched.length > 1) sub += "/"+matched[1];
-
-                subPaths.add(path+sub);
+            if(thePath.startsWith(searchPath)){
+                String[] subPaths = thePath.replace(searchPath, "").split("/");
+                if(subPaths.length > 1) {
+                    String realPath = searchPath + "/" + subPaths[1];
+                    uniquePaths.add(realPath);
+                }
             }
         }
-        return subPaths;
+
+        for(String path : uniquePaths){
+            Integer testCaseCount = totalCountUnderPath(path);
+            testCasePaths.add(new TestCasePath(path, testCaseCount));
+        }
+        return testCasePaths;
+    }
+
+    @Override
+    @Cacheable(value = "test_case_search", key = "'count_by_path_'+#path")
+    public Integer totalCountUnderPath(String path) {
+        return testCaseRepository.countByPathStartingWith(path);
     }
 
     private List<TestCase> findByCondition(SearchCondition searchCondition){

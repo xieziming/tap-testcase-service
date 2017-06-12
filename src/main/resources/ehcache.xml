@@ -15,7 +15,7 @@
 
     <cache name="test_case_search"
            maxElementsInMemory="50"
-           timeToIdleSeconds="10"
+           timeToIdleSeconds="3"
            timeToLiveSeconds="60"/>
 
 </ehcache>

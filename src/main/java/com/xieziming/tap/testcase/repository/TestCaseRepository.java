@@ -34,6 +34,8 @@ public interface TestCaseRepository extends PagingAndSortingRepository<TestCase,
     List<TestCase> findByStatus(String status);
     List<TestCase> findByNameContaining(String name);
     List<TestCase> findByDescriptionContaining(String description);
+    Integer countByPath(String path);
+    Integer countByPathStartingWith(String path);
 
     @Query("SELECT DISTINCT path FROM TestCase")
     List<String> findAllPaths();

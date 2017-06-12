@@ -26,7 +26,7 @@ public class TestCase {
     private String uid;
 
     @Column(length=100, nullable = false)
-    private String path = "unclassified";
+    private String path = "/unclassified";
 
     @Column(length = 100)
     private String name;
