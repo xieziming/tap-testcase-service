@@ -1,6 +1,6 @@
 package com.xieziming.tap.testcase.service;
 
-import com.xieziming.tap.testcase.dto.TestCasePathSearchResult;
+import com.xieziming.tap.testcase.dto.TestCaseFolder;
 import com.xieziming.tap.testcase.model.TestCase;
 import com.xieziming.tap.testcase.search.SearchCondition;
 
@@ -12,6 +12,5 @@ import java.util.List;
 public interface TestCaseSearchService {
     Iterable<TestCase> findAll();
     List<TestCase> findByConditions(SearchCondition searchCondition) throws Exception;
-    TestCasePathSearchResult retrievePath(String path);
-    Integer totalCountUnderPath(String path);
+    TestCaseFolder getTestCaseFolder(String path);
 }

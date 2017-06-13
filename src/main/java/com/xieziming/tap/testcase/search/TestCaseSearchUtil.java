@@ -1,7 +1,6 @@
 package com.xieziming.tap.testcase.search;
 
 import com.xieziming.tap.testcase.model.TestCase;
-import org.springframework.util.Assert;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -14,9 +13,6 @@ import java.util.Set;
 public class TestCaseSearchUtil {
 
     public static List<TestCase> testCasesAnd(List<TestCase> testCases1, List<TestCase> testCases2){
-        Assert.notNull(testCases1, "search condition should not null");
-        Assert.notNull(testCases2, "search condition should not null");
-
         List<TestCase> testCases = new LinkedList<>();
 
         Set<String> testCaseUids = new HashSet<>();
@@ -33,9 +29,6 @@ public class TestCaseSearchUtil {
     }
 
     public static List<TestCase> testCasesOr(List<TestCase> testCases1, List<TestCase> testCases2){
-        Assert.notNull(testCases1, "search condition should not null");
-        Assert.notNull(testCases2, "search condition should not null");
-
         List<TestCase> testCases = new LinkedList<>();
 
         Set<String> testCaseUids = new HashSet<>();

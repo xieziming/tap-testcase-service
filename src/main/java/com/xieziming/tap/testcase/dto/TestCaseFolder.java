@@ -6,11 +6,11 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * Created by Suny on 6/12/17.
+ * Created by Suny on 6/14/17.
  */
 @Data
-public class TestCasePathSearchResult {
-    private String parentTestCasePath;
-    private List<TestCasePath> testCasePaths;
+public class TestCaseFolder {
+    private String path;
+    private List<TestCaseFolder> testCaseFolders;
     private List<TestCase> testCases;
 }

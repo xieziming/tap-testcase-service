@@ -6,8 +6,7 @@
 
 package com.xieziming.tap.testcase.service;
 
-import com.xieziming.tap.testcase.dto.TestCasePath;
-import com.xieziming.tap.testcase.dto.TestCasePathSearchResult;
+import com.xieziming.tap.testcase.dto.TestCaseFolder;
 import com.xieziming.tap.testcase.model.TestCase;
 import com.xieziming.tap.testcase.repository.TestCaseRepository;
 import com.xieziming.tap.testcase.search.SearchCondition;
@@ -16,7 +15,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -58,57 +56,28 @@ public class TestCaseSearchServiceImpl implements TestCaseSearchService {
     }
 
     @Override
-    @Cacheable(value = "test_case_search", key = "'dir_path_'+#path")
-    public TestCasePathSearchResult retrievePath(String path) {
-        if(path.endsWith("/")) path = StringUtils.chop(path);
-        TestCasePathSearchResult testCasePathSearchResult = new TestCasePathSearchResult();
-        testCasePathSearchResult.setParentTestCasePath(getParentPath(path));
-        testCasePathSearchResult.setTestCasePaths(getSubPaths(path));
-        testCasePathSearchResult.setTestCases(testCaseRepository.findByPath(path));
-        return testCasePathSearchResult;
-    }
-
-    private String getParentPath(String path){
-        if(path.endsWith("/")) path = StringUtils.chop(path);
-        int lastFound = path.lastIndexOf("/");
-        if(lastFound == -1) return null;
-        if(lastFound == 0) return "/";
-        return path.substring(0, lastFound);
-    }
-
-    @Cacheable(value = "test_case_search", key = "'dir_sub_path_'+#path")
-    private List<TestCasePath> getSubPaths(String searchPath){
-        if(searchPath.endsWith("/")) searchPath = StringUtils.chop(searchPath);
-        List<String> allPaths = testCaseRepository.findAllPaths();
-        List<TestCasePath> testCasePaths = new ArrayList<>();
-
-        Set<String> uniquePaths = new HashSet<>();
-        for(String thePath : allPaths){
-            if(thePath.startsWith(searchPath)){
-                String[] subPaths = thePath.replace(searchPath, "").split("/");
-                if(subPaths.length > 1) {
-                    String realPath = searchPath + "/" + subPaths[1];
-                    uniquePaths.add(realPath);
-                }
-            }
+    @Cacheable(value = "test_case_search", key = "'test_case_folder_'+#path")
+    public TestCaseFolder getTestCaseFolder(String path){
+        TestCaseFolder testCaseFolder = new TestCaseFolder();
+        testCaseFolder.setPath(path);
+        List<TestCase> testCases = testCaseRepository.findByPath(path);
+        for(TestCase testCase : testCases){
+            testCase.setTestCaseMetas(null);
+            testCase.setTestDatas(null);
+            testCase.setTestSteps(null);
         }
+        testCaseFolder.setTestCases(testCases);
 
-        for(String path : uniquePaths){
-            Integer testCaseCount = totalCountUnderPath(path);
-            testCasePaths.add(new TestCasePath(path, testCaseCount));
+        List<TestCaseFolder> subFolders = new ArrayList<>();
+        Set<String> subTestCaseFolderPaths = getSubTestCaseFolderPaths(path);
+        for(String subTestCaseFolderPath : subTestCaseFolderPaths){
+            subFolders.add(getTestCaseFolder(subTestCaseFolderPath));
         }
-        return testCasePaths;
-    }
-
-    @Override
-    @Cacheable(value = "test_case_search", key = "'count_by_path_'+#path")
-    public Integer totalCountUnderPath(String path) {
-        return testCaseRepository.countByPathStartingWith(path);
+        testCaseFolder.setTestCaseFolders(subFolders);
+        return testCaseFolder;
     }
 
     private List<TestCase> findByCondition(SearchCondition searchCondition){
-        Assert.notNull(searchCondition, "search condition should not null");
-
         String condition = searchCondition.getCondition();
         String value = searchCondition.getValue();
 
@@ -127,5 +96,19 @@ public class TestCaseSearchServiceImpl implements TestCaseSearchService {
             return testCaseRepository.findByDescriptionContaining(value);
         }
         return null;
+    }
+
+    private Set<String> getSubTestCaseFolderPaths(String currentPath){
+        if(currentPath.endsWith("/")) currentPath = StringUtils.chop(currentPath);
+        List<String> subPaths = testCaseRepository.findPathStartingWith(currentPath + "/");
+
+        Set<String> uniquePaths = new HashSet<>();
+        for(String thePath : subPaths){
+            String folder = thePath.replace(currentPath,"").replaceFirst("/","");
+            String path = currentPath + "/" + folder.split("/")[0];
+            uniquePaths.add(path);
+        }
+
+        return uniquePaths;
     }
 }

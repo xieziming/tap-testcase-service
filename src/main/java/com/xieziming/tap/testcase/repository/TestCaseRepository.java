@@ -19,6 +19,7 @@ import com.xieziming.tap.testcase.model.TestCase;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -37,6 +38,6 @@ public interface TestCaseRepository extends PagingAndSortingRepository<TestCase,
     Integer countByPath(String path);
     Integer countByPathStartingWith(String path);
 
-    @Query("SELECT DISTINCT path FROM TestCase")
-    List<String> findAllPaths();
+    @Query("SELECT DISTINCT path FROM TestCase WHERE path LIKE ?1%")
+    List<String> findPathStartingWith(String path);
 }

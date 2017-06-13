@@ -6,7 +6,7 @@
 
 package com.xieziming.tap.testcase.controller;
 
-import com.xieziming.tap.testcase.dto.TestCasePathSearchResult;
+import com.xieziming.tap.testcase.dto.TestCaseFolder;
 import com.xieziming.tap.testcase.model.TestCase;
 import com.xieziming.tap.testcase.search.SearchCondition;
 import com.xieziming.tap.testcase.service.TestCaseSearchService;
@@ -36,7 +36,7 @@ public class TestCaseSearchServiceController {
     }
 
     @RequestMapping(value = "/path", method = RequestMethod.POST)
-    public TestCasePathSearchResult retrievePath(@RequestParam String path){
-        return testCaseSearchService.retrievePath(path);
+    public TestCaseFolder retrievePath(@RequestParam String path){
+        return testCaseSearchService.getTestCaseFolder(path);
     }
 }
